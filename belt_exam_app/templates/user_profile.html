@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" 
+    rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">   
+    
+    {%load static%}
+    <link rel="stylesheet" href="{%static 'css/quotes.css' %}">
+    <title>Document</title>
+</head>
+<body>
+
+        <!-- NAVBAR -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand" href="/quotes"> My Project</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
+                    aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarText">
+                    <ul class="navbar-nav mr-auto"></ul>
+                    <span class="navbar-text">
+                        Welcome, {{request.session.greeting}} 
+                        <a href="/logout" role="button" class="btn btn-sm btn-info ml-2 text-white">Logout</a>
+                    </span>
+                </div>
+                <a href="/quotes">Dashboard </a>
+            </div>
+        </nav><!-- /NAVBAR -->
+
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <div class="container">
+            <h2>Posted By {{user.first_name}}</h2>
+            <h2>Count {{user.user_quoutes.count}}</h2>
+
+            {% for quote in user.user_quoutes.all %}
+                <div class="quote">
+                    <p> {{quote.quoted_by}} : {{quote.quote}}</p>
+                </div>
+            {%endfor%}
+
+        </div>
+    
+ 
+
+
+</body>
+</html>
+

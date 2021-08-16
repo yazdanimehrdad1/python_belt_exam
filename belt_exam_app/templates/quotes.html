@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" 
+    rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">   
+    
+    {%load static%}
+    <link rel="stylesheet" href="{%static 'css/quotes.css' %}">
+    <title>Quotable Quotes</title>
+</head>
+<body>
+
+        <!-- NAVBAR -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand" href="/quotes">Quotable Quotes</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
+                    aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarText">
+                    <ul class="navbar-nav mr-auto"></ul>
+                    <span class="navbar-text">
+                        Welcome, {{request.session.greeting}} 
+                        <a href="/logout" role="button" class="btn btn-sm btn-info ml-2 text-white">Logout</a>
+                    </span>
+                </div>
+                <!-- <a href="/books/add">Some Link </a> -->
+            </div>
+        </nav><!-- /NAVBAR -->
+
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <div class="container">
+            <div class= "row">
+
+                
+                <div class=" col-md-6   " >
+                    <h2>Quotable Quotes</h2>
+
+                    <div class="bg-success p-2 text-dark bg-opacity-25" > 
+
+                    {%for quote in quotes %}
+
+                    {% if user not in  quote.favorit_users.all %}
+
+                    <div class="quote">
+                        
+                        {% if quote.user.id == request.session.user_id   %}
+                        <p><a href="/quotes/{{quote.id}}">Edit</a>  <a href="/quotes/{{quote.id}}/delete">Delete</a></p>
+                        {%endif%}
+                        <p>{{quote.quoted_by}} : {{quote.quote}}</p>
+                        <p>Posted by: <a href="/users/{{quote.user.id}}">{{quote.user.first_name}}</a></p>
+                        <a class="btn btn-success" href="quotes/{{quote.id}}/favorit">Add to your favorits</a>
+                    </div>
+
+                    {%endif%}
+
+                    {% endfor %}
+
+                    </div>
+
+                </div>
+
+                
+                <div class=" col-md-6">
+                    <h2>Your Favorits</h2>
+
+                    <div class="bg-info p-2 text-dark bg-opacity-25" > 
+
+                    {%for quote in quotes %}
+                    {% if user in  quote.favorit_users.all %}
+
+                        <div class="quote">
+                        {% if quote.user.id == request.session.user_id   %}
+                        <p><a href="/quotes/{{quote.id}}">Edit</a>  <a href="/quotes/{{quote.id}}/delete">Delete</a></p>
+                        {%endif%}
+
+                        <p>{{quote.quoted_by}} : {{quote.quote}}</p>
+                        <p>Posted by: <a href="/users/{{quote.user.id}}">{{quote.user.first_name}}</a></p>
+                        <a class="btn btn-danger" href="quotes/{{quote.id}}/unfavorit">Remove from your favorits</a>
+                        
+                        </div>
+                    {%endif%}
+                    {%endfor%}
+
+                    </div>
+
+                </div>
+
+                <h2>Contribute a Quote</h2>
+                <div class="quote">
+                    <form action="/quotes/create" method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="quoted_by">Quoted By</label>
+                            <input type="text" name="quoted_by" id="title" class="form-control" >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="quote">Message</label>
+                            <input type="text"  name="quote" id="network" class="form-control">
+                        </div>
+
+                       
+                        <button class="btn btn-primary">Submit</button>
+                    </form>
+
+
+                </div>
+            </div>
+
+        </div>
+    
+ 
+
+
+</body>
+</html>
+
