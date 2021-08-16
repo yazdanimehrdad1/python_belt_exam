@@ -47,7 +47,7 @@
 
             {% for quote in user.user_quoutes.all %}
                 <div class="quote">
-                    <p>{{quote.quote}}</p>
+                    <p> {{quote.quoted_by}} : {{quote.quote}}</p>
                 </div>
             {%endfor%}
 

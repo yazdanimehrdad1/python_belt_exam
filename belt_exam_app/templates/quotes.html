@@ -59,7 +59,7 @@
                         {% if quote.user.id == request.session.user_id   %}
                         <p><a href="/quotes/{{quote.id}}">Edit</a>  <a href="/quotes/{{quote.id}}/delete">Delete</a></p>
                         {%endif%}
-                        <p>{{quote.quote}}</p>
+                        <p>{{quote.quoted_by}} : {{quote.quote}}</p>
                         <p>Posted by: <a href="/users/{{quote.user.id}}">{{quote.user.first_name}}</a></p>
                         <a class="btn btn-success" href="quotes/{{quote.id}}/favorit">Add to your favorits</a>
                     </div>
@@ -86,7 +86,7 @@
                         <p><a href="/quotes/{{quote.id}}">Edit</a>  <a href="/quotes/{{quote.id}}/delete">Delete</a></p>
                         {%endif%}
 
-                        <p>{{quote.quote}}</p>
+                        <p>{{quote.quoted_by}} : {{quote.quote}}</p>
                         <p>Posted by: <a href="/users/{{quote.user.id}}">{{quote.user.first_name}}</a></p>
                         <a class="btn btn-danger" href="quotes/{{quote.id}}/unfavorit">Remove from your favorits</a>
                         
